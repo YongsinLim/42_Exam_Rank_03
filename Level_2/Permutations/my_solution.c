@@ -6,7 +6,7 @@
 /*   By: yolim <yolim@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 20:21:06 by yolim             #+#    #+#             */
-/*   Updated: 2026/03/12 23:35:27 by yolim            ###   ########.fr       */
+/*   Updated: 2026/03/13 11:43:40 by yolim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void    sort_str(char *str, int n)
     }
 }
 
-// Recursive function to generate permutations
+// Recursive function to generate permutations (must remember this function)
 void    backtrack(char *src, int arg_len, int *used, char *output, int position)
 {
     /*
