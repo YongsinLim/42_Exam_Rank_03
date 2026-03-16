@@ -6,28 +6,27 @@
 /*   By: yolim <yolim@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 14:47:25 by yolim             #+#    #+#             */
-/*   Updated: 2026/03/11 19:26:13 by yolim            ###   ########.fr       */
+/*   Updated: 2026/03/16 18:10:06 by yolim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // Q given dy
 #include <errno.h> // for perror
-#include <string.h> // for memmem, strlen
-#include <fcntl.h> // for read
+#include <string.h> // for memmem, strlen, memmove
+#include <fcntl.h> // for read, O_RDONLY
 // #define _GNU_SOURCE // for memmem()
 
 // Q not given
-#include <stdio.h> // for printf
-#include <stdlib.h> // for realloc
-#include <unistd.h> // for write
+#include <stdio.h> // for printf, fprintf
+#include <stdlib.h> // for realloc, calloc, free, malloc
+#include <unistd.h> // for write, read
 
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 42
 #endif
 
-
 /*
-Function to find and replace all occurrences
+Function to find and replace all occurrences to *
 
 SEARCH AND REPLACE ALGORITHM:
 * - Traverse the buffer character by character
@@ -90,19 +89,17 @@ int    main(int argc, char **argv)
     char *buffer;
     char *result = NULL;
     int total_read = 0;
-    ssize_t bytes;    // bcos read must remember
+    ssize_t bytes;    // bcos read return ssize_t
 
-
-    // Read from stdin to EOF
+    // Read from stdin until EOF
     while ((bytes = read(0, temp, BUFFER_SIZE)) > 0)
     {
-        // Expand the main buffer to accommodate the new data
-        /* realloc\(\) must receive a pointer previously allocated by malloc\(\)/realloc\(\) (or NULL).
-            result is the dynamic heap buffer that stores all accumulated input, so it can be grown each read.
-            temp is a fixed local array on the stack (char temp\[BUFFER\_SIZE\]), only used as a temporary chunk buffer.
-            Stack arrays cannot be resized with realloc\(\).
+        /* realloc must receive a pointer previously allocated by malloc / realloc (or NULL).
+            "result" is the dynamic heap buffer that stores all accumulated input, so it can be grown each read.
+            temp is a fixed local array on the stack (char temp[BUFFER_SIZE]), only used as a temporary chunk buffer.
+            Stack arrays cannot be resized with realloc.
         */
-        buffer = realloc(result, total_read + bytes + 1);
+        buffer = realloc(result, total_read + bytes + 1); // realloc : copy all existing data into the new larger block, the old memory is automatically freed
         if (!buffer)
         {
             free(result);
@@ -111,7 +108,7 @@ int    main(int argc, char **argv)
         }
         result = buffer;
 
-        // Copy the new data to the main buffer
+        // Copy new data to the main buffer
         memmove(result + total_read, temp, bytes);
         total_read += bytes;
         result[total_read] = '\0';
@@ -138,7 +135,6 @@ int    main(int argc, char **argv)
 }
 
 /*
-
 * KEY POINTS FOR THE EXAM:
 * 1. MEMORY MANAGEMENT:
 * - Always check the return value of malloc/realloc
@@ -157,6 +153,5 @@ int    main(int argc, char **argv)
 
 * 4. EFFICIENT ALGORITHM:
 * - Simple character-by-character search
-* - Avoid using disallowed functions
 * - Write directly to stdout without storing the result
 */
