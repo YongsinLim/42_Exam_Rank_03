@@ -6,7 +6,7 @@
 /*   By: yolim <yolim@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/08 13:49:04 by yolim             #+#    #+#             */
-/*   Updated: 2026/03/11 14:27:30 by yolim            ###   ########.fr       */
+/*   Updated: 2026/03/16 15:09:40 by yolim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 
 char *ft_strchr(char *s, int c)
 {
-    if (!s)
+    if (!s) //dont forget to check
         return (NULL);
     int i = 0;
     while(s[i] != '\0')
@@ -36,8 +36,9 @@ char *ft_strchr(char *s, int c)
 
 void *ft_memcpy(void *dest, const void *src, size_t n)
 {
-    size_t    i;
+    size_t    i; // declare size_t, not int!
 
+    // no need to check !desk and !src
     i = 0;
     while (i < n)
     {
@@ -52,7 +53,7 @@ size_t ft_strlen(char *s)
     size_t len;
 
     len = 0;
-    if (!s)
+    if (!s) // dont forget to check
         return (0);
     while (s && s[len] != '\0')
         len++;
@@ -64,7 +65,7 @@ int str_append_mem(char **s1, char *s2, size_t size2)
     size_t size1;
     char    *tmp;
 
-    if (*s1)
+    if (*s1) // dont forget to check *s1 != NULL
         size1 = ft_strlen(*s1);
     else
         size1 = 0;
@@ -92,16 +93,16 @@ void *ft_memmove(void *dest, const void *src, size_t n)
 
     if (!dest || !src)
         return (NULL);
-    if (dest > src)
+    if (dest > src) // backward copy
     {
         i = n;
-        while (i >= 0)
+        while (i >= 0) // must include 0, bcos 0 index
         {
             i--;
             ((char *)dest)[i] = ((char *)src)[i];
         }
     }
-    else if (dest < src)
+    else if (dest < src) // copy from front
     {
         i = 0;
         while (i < n)
@@ -124,25 +125,25 @@ char *get_next_line(int fd)
         tmp =  ft_strchr(b, '\n');
         if (tmp)
         {
-            if (!str_append_mem(&ret, b, tmp - b + 1))
+            if (!str_append_mem(&ret, b, tmp - b + 1)) // tmp - b + 1 : eg. calculate "hello\nworld" 's hello\n how long bytes
             {
                 free(ret);
                 free(tmp);
                 return (NULL);
             }
-            ft_memmove(b, tmp + 1, ft_strlen(tmp + 1) + 1);
+            ft_memmove(b, tmp + 1, ft_strlen(tmp + 1) + 1); // copy remaining ch after \n to b !!
             return (ret);
         }
 
         if (!str_append_str(&ret, b))
             return (NULL);
         int read_ret = read(fd, b, BUFFER_SIZE);
-        if (read_ret <= 0)
+        if (read_ret <= 0) // nothing to read dy
         {
-            b[0] = '\0';
-            if (ret && *ret)
+            b[0] = '\0'; // null terminate buffer
+            if (ret && *ret) // if ret got remaining , return
                 return ret;
-            free(ret);
+            free(ret);  // if no, free and return null
             return NULL;
         }
         b[read_ret] = '\0';
