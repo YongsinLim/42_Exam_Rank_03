@@ -6,10 +6,9 @@
 /*   By: yolim <yolim@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 19:37:17 by yolim             #+#    #+#             */
-/*   Updated: 2026/03/12 15:30:20 by yolim            ###   ########.fr       */
+/*   Updated: 2026/03/16 21:12:04 by yolim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 /*
 * EXERCISE: FT_SCANF
@@ -27,28 +26,28 @@
 * - %s: string (up to the first whitespace character)
 * - %d: decimal integer (signed optional)
 * - %c: single character
-
 */
 
-#include <stdarg.h>
-#include <stdio.h> // for fgetc
-#include <ctype.h>
+#include <stdarg.h> // for va_start, va_arg, va_copy, va_end
+#include <stdio.h> // for fgetc, ungetc, ferror, feof
+#include <ctype.h> // for isspace, isdigit,
 
 /*
 fgetc :
 Read character by character
-Return Value: Returns the character read as an unsigned char converted to an int. If the end-of-file is reached or an error occurs, it returns EOF.
+Return Value: Returns the character read as an unsigned char converted to an int.
+                If the end-of-file is reached or an error occurs, it returns EOF.
 
 ungetc(int char, FILE *stream) :
 takes a single character and put it back onto an input stream.
-char: specifies the int promotion of the character to be put back. The value is internally converted to an unsigned char when put back.
+char: specifies the int promotion of the character to be put back.
+        The value is internally converted to an unsigned char when put back.
 Return Value: On success, returns the character ch. On failure, EOF is returned without changing the stream.
 
 ferror :
 check errors in files during file operations
 return value : If the file has error, returns a non-zero value. Otherwise, returns 0.
 */
-
 
 /*
 Important Notes !!!!!
@@ -115,11 +114,11 @@ int scan_char(FILE *f, va_list *ap)
     /*
     * %c CONVERSION:
     * - Read exactly one character
+    * - declare char ptr using va_arg
     * - Do not skip whitespace
     * - Store in the provided pointer
     */
 
-    //It reads exactly one byte from the input stream f using fgetc.
     int ch = fgetc(f);
     // It gets the destination pointer from variable arguments.
     char *cp = va_arg(*ap, char *);
@@ -137,15 +136,19 @@ int scan_int(FILE *f, va_list *ap)
 {
     /*
     * %d CONVERSION:
+    * - declare int ptr using va_arg
     * - Skip leading whitespace
     * - Read optional sign (+/-)
+    * - Check 1st ch is number
     * - Read digits and construct the number
     * - Return the last non-digit character to the stream
+    * - Check count whether run
+    * - If count run, assign number into int ptr
     */
 
     int sign = 1;
     int value = 0;
-    // It reads from f with fgetc.
+
     int ch = fgetc(f);
     // It gets the output pointer from variadic arguments
     int *ip = va_arg(*ap, int *);
@@ -200,10 +203,12 @@ int scan_string(FILE *f, va_list *ap)
     /*
 
     * %s CONVERSION:
+    * - declare str ptr using va_arg
     * - Skip leading whitespace
     * - Read characters until a whitespace character is found
     * - Terminate the string with '\0'
     * - Return the last whitespace character to the stream
+    * - Return -1 if i not run, 1 if i run
     */
 
     int ch = fgetc(f);
@@ -352,8 +357,6 @@ int ft_scanf(const char *format, ...)
 * - EOF if file error or EOF before conversions
 * - Stop on first failed conversion
 */
-
-
 
 /*
 EXAMPLE USAGE:
