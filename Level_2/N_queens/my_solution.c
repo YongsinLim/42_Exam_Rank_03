@@ -69,6 +69,16 @@ void   solve_n_queens(int *board, int col, int n)
 
 int main(int argc, char **argv)
 {
+    /*
+     * - validate arg
+     * - convert arg to int
+     * - arg < 1 return
+     * - open int *board
+     * - solve Q
+     * - free(board)
+     * - return 0
+     */
+
     if (argc != 2)
         return 1;
     int n = atoi(argv[1]);
