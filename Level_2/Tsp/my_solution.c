@@ -6,7 +6,7 @@
 /*   By: yolim <yolim@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/14 23:57:34 by yolim             #+#    #+#             */
-/*   Updated: 2026/03/15 16:13:09 by yolim            ###   ########.fr       */
+/*   Updated: 2026/03/17 11:27:30 by yolim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <unistd.h> // for write
 #include <math.h> // for sqrtf
 #include <stdlib.h> // for malloc, free
-#include <float.h> // for __FLT_MAX
+#include <float.h> // for FLT_MAX
 
 typedef struct s_city {
     float x;
@@ -71,20 +71,23 @@ void find_shortest_path(t_city *cities, int *path, int count, int index, float *
     }
 }
 
-int main(void) {
+int main(void)
+{
     t_city cities[11];
     int count = 0;
 
     /*
     fscanf(stdin, ...): Read formatted data (cities) from standard input
     "%f, %f\n": Format specifier for two floats separated by a comma and space
-    &cities[count].x: Address of the x-coordinate (where to store first float)
-    &cities[count].y: Address of the y-coordinate (where to store second float)
+    &cities[count].x: Address of the x-coordinate (where to store 1st float)
+    &cities[count].y: Address of the y-coordinate (where to store 2nd float)
     == 2: Check if exactly 2 values were successfully read
 
     fscanf returns the number of items successfully assigned.
-    Why &cities[count].x? Need the memory address (pointer) bcos fscanf needs to know where to store the value
+    Why &cities[count].x? Need the memory address (pointer)
+        bcos fscanf needs to know where to store the value
     */
+
     while (fscanf(stdin, "%f, %f\n", &cities[count].x, &cities[count].y) == 2)
         count++;
 
@@ -97,7 +100,7 @@ int main(void) {
         i++;
     }
 
-    float min_distance = __FLT_MAX__; // must include float.h, if cannot remember use 999999.0f
+    float min_distance = FLT_MAX; // must include float.h, if cannot remember use 999999.0f
     find_shortest_path(cities, path, count, 0, &min_distance);
 
     fprintf(stdout, "%.2f\n", min_distance);
