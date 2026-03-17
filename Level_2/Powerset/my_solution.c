@@ -40,6 +40,16 @@ void    powerset(int *set, int set_size, int target, int *subset, int subset_siz
 }
 
 int main(int argc, char **argv) {
+    /*
+     * - Validate arg
+     * - Get target amount
+     * - Get set_len
+     * - Assign input set into set_array
+     * - Generate powerset
+     * - Memory free
+     * - Return
+     */
+
     if (argc < 2) // or argc < 3 if want to catch non-empty subset
         return 1;
 
