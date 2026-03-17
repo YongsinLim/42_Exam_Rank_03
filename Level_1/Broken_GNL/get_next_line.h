@@ -13,7 +13,7 @@
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-#include <unistd.h> // for read, close
+#include <unistd.h> // for read, write, close
 #include <stdlib.h> // for malloc, free
 #include <stdio.h> for printf
 #include <fcntl.h> // for open, O_RDONLY, if cannot remember library use "man creat / man stdin"
