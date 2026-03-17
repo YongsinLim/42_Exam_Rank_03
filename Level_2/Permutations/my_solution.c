@@ -6,7 +6,7 @@
 /*   By: yolim <yolim@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 20:21:06 by yolim             #+#    #+#             */
-/*   Updated: 2026/03/13 11:43:40 by yolim            ###   ########.fr       */
+/*   Updated: 2026/03/17 10:47:22 by yolim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void    backtrack(char *src, int arg_len, int *used, char *output, int position)
     * - Recurse for the next position
 
     * - Remove character (backtrack) to try others
-    * - look for next option
+    * - look for next option (i)
 
     */
 
@@ -121,10 +121,13 @@ int    main(int argc, char **argv)
     /*
     * Step :
     * - Verify valid arguments
-    * - Validate that it contains only letters
-    * - Sort string alphabetically
+    * - Validate arg contains only letters
+    * - save each letters into char * array
     * - Initialize buffer for result
-    * - Generate all permutations
+    * - Sort string alphabetically
+    * - Generate all permutations (src, output, used[i], arg_len, position)
+    * - Free memory
+    * - Retun 0
     */
 
     int arg_len;
