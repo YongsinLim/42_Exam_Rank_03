@@ -6,27 +6,31 @@
 /*   By: yolim <yolim@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/14 23:01:57 by yolim             #+#    #+#             */
-/*   Updated: 2026/03/14 23:52:19 by yolim            ###   ########.fr       */
+/*   Updated: 2026/03/18 16:35:24 by yolim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h> // for puts
-#include <unistd.h> // for write
+#include "rip.h"
 
-int ft_strlen(char *str) {
+int ft_strlen(char *s)
+{
+    if (!s || !*s)
+        return (0);
     int i = 0;
-    while (str[i])
+    while (s && s[i])
         i++;
     return i;
 }
 
 int get_min_removals(char *s)
 {
+    int i = 0;
     int open = 0;
     int close = 0;
-    int i = 0;
 
-    while (s[i])
+    if (!s || !*s)
+        return (0);
+    while (s && s[i])
     {
         if (s[i] == '(')
             open++;
@@ -41,14 +45,16 @@ int get_min_removals(char *s)
     return (open + close);
 }
 
-void rip_helper(char *s, int index, char *current, int removals, int min_removals, int open, int close, int len)
+void    rip(char *src, int src_len, char *current, int min_removals, int removals, int open, int close, int index)
 {
     //Base case : processed all characters
-    if (index == len) {
+    if (index == src_len) {
         // Valid only if balanced AND uses minimum removals
-        if (open == close && removals == min_removals)
+        if (open == close && removals == min_removals) {
+            current[src_len] = '\0';
             puts(current); // print the solution;
-        return ;
+        }
+        return ; // must be outside if condition.
     }
 
     // Pruning : if already removed more than minimum, skip
@@ -56,22 +62,22 @@ void rip_helper(char *s, int index, char *current, int removals, int min_removal
         return ;
 
     // Option 1 : Keep the character
-    if (s[index] == '(') {
+    if (src[index] == '(') {
         current[index] = '(';
-        rip_helper(s, index + 1, current, removals, min_removals, open + 1, close, len);
+        rip(src, src_len, current, min_removals, removals, open + 1, close, index + 1);
     }
     else // for ')'
     {
         // Can only keep ')' if we have unmatched '('
         if (open > close) {
             current[index] = ')';
-            rip_helper(s, index + 1, current, removals, min_removals, open, close + 1, len);
+            rip(src, src_len, current, min_removals, removals, open, close + 1, index + 1);
         }
     }
 
     // Option 2 : Replace with space (remove)
     current[index] = ' ';
-    rip_helper(s, index + 1, current, removals + 1, min_removals, open, close, len);
+    rip(src, src_len, current, min_removals, removals + 1, open, close, index + 1);
 }
 
 int main(int argc, char **argv)
@@ -79,12 +85,11 @@ int main(int argc, char **argv)
     if (argc != 2)
         return 1;
     char *s = argv[1];
-    int len = ft_strlen(s);
+    int src_len = ft_strlen(s);
     int min_removals = get_min_removals(s);
 
-    char current[len + 1];
-    current[len] = '\0';
-    rip_helper(s, 0, current, 0, min_removals, 0, 0, len);
+    char current[src_len + 1]; // declare variable to store result (cannot use malloc)
+    rip(s, src_len, current, min_removals, 0, 0, 0, 0);
     return 0;
 }
 
