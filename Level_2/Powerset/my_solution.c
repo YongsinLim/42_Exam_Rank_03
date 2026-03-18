@@ -6,21 +6,20 @@
 /*   By: yolim <yolim@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/14 20:06:52 by yolim             #+#    #+#             */
-/*   Updated: 2026/03/14 22:01:18 by yolim            ###   ########.fr       */
+/*   Updated: 2026/03/18 17:47:51 by yolim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h> // for atoi, malloc, free, calloc,
-#include <stdio.h> // for printf
+#include "powerset.h"
 
-void    powerset(int *set, int set_size, int target, int *subset, int subset_size, int index, int current_sum) {
+void    powerset(int *src, int src_len, int target, int *subset, int subset_len, int index, int current_sum) {
     // Base case : processed all elements
-    if (index == set_size) {
+    if (index == src_len) {
         // Check if sum matches target
         if (current_sum == target) {
             // Print the subset
             int i = 0;
-            while (i < subset_size) {
+            while (i < subset_len) {
                 if (i > 0)
                     printf(" ");
                 printf("%d", subset[i]);
@@ -32,11 +31,11 @@ void    powerset(int *set, int set_size, int target, int *subset, int subset_siz
     }
 
     // Option 1 : Include current element
-    subset[subset_size] = set[index];
-    powerset(set, set_size, target, subset, subset_size + 1, index + 1, current_sum + set[index]);
+    subset[subset_len] = src[index]; // use subset_size
+    powerset(src, src_len, target, subset, subset_len + 1, index + 1, current_sum + src[index]);
 
     // Option 2 : Exclude current element
-    powerset(set, set_size, target, subset, subset_size, index + 1, current_sum);
+    powerset(src, src_len, target, subset, subset_len, index + 1, current_sum);
 }
 
 int main(int argc, char **argv) {
@@ -50,30 +49,27 @@ int main(int argc, char **argv) {
      * - Return
      */
 
-    if (argc < 2) // or argc < 3 if want to catch non-empty subset
+    if (argc < 3)
         return 1;
 
     int target = atoi(argv[1]);
-    int set_size = argc - 2;
-    int *set = malloc(sizeof(int) * set_size);
-    int *subset = malloc(sizeof(int) * set_size);
+    int src_len = argc - 2;
+    int *src = malloc(sizeof(int) * src_len);
+    int *subset = malloc(sizeof(int) * src_len);
 
-    if (!set || !subset) {
-        free(set);
-        free(subset);
-        return 1;
-    }
+    if (!src || !subset)
+        return (1);
 
-    // parse input set into set_array
+    // parse input src into src_array
     int i = 0;
-    while (i < set_size) {
-        set[i] = atoi(argv[i + 2]);
+    while (i < src_len) {
+        src[i] = atoi(argv[i + 2]);
         i++;
     }
 
     // Find all subsets with target sum
-    powerset(set, set_size, target, subset, 0, 0, 0);
-    free(set);
+    powerset(src, src_len, target, subset, 0, 0, 0);
+    free(src);
     free(subset);
     return 0;
 }
