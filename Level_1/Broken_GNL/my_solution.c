@@ -6,7 +6,7 @@
 /*   By: yolim <yolim@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/08 13:49:04 by yolim             #+#    #+#             */
-/*   Updated: 2026/03/16 15:09:40 by yolim            ###   ########.fr       */
+/*   Updated: 2026/03/18 14:13:54 by yolim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@
 
 char *ft_strchr(char *s, int c)
 {
-    if (!s) //dont forget to check
+    if (!s)
         return (NULL);
     int i = 0;
-    while(s[i] != '\0')
+    while(s[i])
     {
         if (s[i] == c)
             return s + i;
@@ -36,7 +36,7 @@ char *ft_strchr(char *s, int c)
 
 void *ft_memcpy(void *dest, const void *src, size_t n)
 {
-    size_t    i; // declare size_t, not int!
+    size_t    i;
 
     // no need to check !desk and !src
     i = 0;
@@ -53,9 +53,9 @@ size_t ft_strlen(char *s)
     size_t len;
 
     len = 0;
-    if (!s) // dont forget to check
+    if (!s)
         return (0);
-    while (s && s[len] != '\0')
+    while (s && s[len]) // check both
         len++;
     return (len);
 }
@@ -68,16 +68,15 @@ int str_append_mem(char **s1, char *s2, size_t size2)
     if (*s1) // dont forget to check *s1 != NULL
         size1 = ft_strlen(*s1);
     else
-        size1 = 0;
+        size1 = 0; // remember !
 
     tmp = malloc(size2 + size1 + 1);
     if (!tmp)
         return 0;
-    if (*s1)
-        ft_memcpy(tmp, *s1, size1);
+    ft_memcpy(tmp, *s1, size1);
+    free(*s1);
     ft_memcpy(tmp + size1, s2, size2);
     tmp[size1 + size2] = '\0';
-    free(*s1);
     *s1 = tmp;
     return 1;
 }
@@ -120,18 +119,17 @@ char *get_next_line(int fd)
     char *ret = NULL;
     char *tmp;
 
-    while(1)
+    while (1)
     {
         tmp =  ft_strchr(b, '\n');
         if (tmp)
         {
             if (!str_append_mem(&ret, b, tmp - b + 1)) // tmp - b + 1 : eg. calculate "hello\nworld" 's hello\n how long bytes
             {
-                free(ret);
-                free(tmp);
+                free(ret); // don't free(tmp) bcos tmp is the address inside b, not separate allocation
                 return (NULL);
             }
-            ft_memmove(b, tmp + 1, ft_strlen(tmp + 1) + 1); // copy remaining ch after \n to b !!
+            ft_memmove(b, tmp + 1, ft_strlen(tmp + 1) + 1); // copy remaining ch after \n + '\0' to b !!
             return (ret);
         }
 
@@ -153,8 +151,8 @@ char *get_next_line(int fd)
 /* int    main(int argc, char **argv)
 {
     if (argc != 2)
-        return (printf("error argv"), 1);
-    int fd = open(argv[1], O_RDONLY);
+        return (printf("error argv"), 1); // don't forget to check
+    int fd = open(argv[1], O_RDONLY); // remember file to open
     if (fd < 0)
         return (printf("fd less than 0"), 1);
     char *line;
@@ -166,7 +164,7 @@ char *get_next_line(int fd)
         free(line);
         count++;
     }
-    close(fd);
+    close(fd); // dont forget to close
     return (0);
 }
 */

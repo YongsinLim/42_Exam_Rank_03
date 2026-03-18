@@ -6,7 +6,7 @@
 /*   By: yolim <yolim@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 14:05:14 by yolim             #+#    #+#             */
-/*   Updated: 2026/03/16 15:16:13 by yolim            ###   ########.fr       */
+/*   Updated: 2026/03/18 13:33:59 by yolim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #include <unistd.h> // for read, write, close
 #include <stdlib.h> // for malloc, free
-#include <stdio.h> for printf
+#include <stdio.h> // for printf
 #include <fcntl.h> // for open, O_RDONLY, if cannot remember library use "man creat / man stdin"
 
 #ifndef BUFFER_SIZE
