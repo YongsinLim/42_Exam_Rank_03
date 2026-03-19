@@ -6,7 +6,7 @@
 /*   By: yolim <yolim@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 19:37:17 by yolim             #+#    #+#             */
-/*   Updated: 2026/03/16 21:12:04 by yolim            ###   ########.fr       */
+/*   Updated: 2026/03/19 16:45:24 by yolim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 * - %c: single character
 */
 
+// All library will be given in Q
 #include <stdarg.h> // for va_start, va_arg, va_copy, va_end
 #include <stdio.h> // for fgetc, ungetc, ferror, feof
 #include <ctype.h> // for isspace, isdigit,
@@ -39,14 +40,14 @@ Return Value: Returns the character read as an unsigned char converted to an int
                 If the end-of-file is reached or an error occurs, it returns EOF.
 
 ungetc(int char, FILE *stream) :
+int => unsigned char
 takes a single character and put it back onto an input stream.
 char: specifies the int promotion of the character to be put back.
         The value is internally converted to an unsigned char when put back.
 Return Value: On success, returns the character ch. On failure, EOF is returned without changing the stream.
 
 ferror :
-check errors in files during file operations
-return value : If the file has error, returns a non-zero value. Otherwise, returns 0.
+check error during file operations (0 success, non-zero fail)
 */
 
 /*
