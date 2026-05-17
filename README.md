@@ -7,13 +7,13 @@ In this repository you will find my solutions for the Exam Rank 03 questions fro
 There are 2 questions in total in this exam. A random question comes from each level below.
 <br>
 
-         Level 1    |        Level 2        |
-| :---------------: | :-------------------: |
-|     Broken_GNL    |       N_Queens        |
-|       Filter      |      Permutations     |
-|     ❗Scanf       |       Powerset        |
-|                   |          Rip          |
-|                   |          Tsp          |
+|    Level 1    |        Level 2        |
+|:-------------:| :-------------------: |
+|  Broken_GNL   |       N_Queens        |
+|    Filter     |      Permutations     |
+|     ❗Scanf    |       Powerset        |
+|               |          Rip          |
+|               |          Tsp          |
 
 ## Exam Norminette
 There is no Norminette in this exam.
